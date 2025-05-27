@@ -23,23 +23,20 @@ public class ProductEntity {
     private BigDecimal price;
     private String description;
     private String category;
+
     private String imgUrl;
     private String adminId;
     private Instant createdAt;
+    private String adminEmail;
 
-//    public static ProductEntity product(CreateProductDto createProductDto) {
-//        var product = new ProductEntity();
-//        product.setProductId(UUID.randomUUID());
-//        product.setTitle(createProductDto.title());
-//        product.setPrice(createProductDto.price());
-//        product.setDescription(createProductDto.description());
-//        product.setCategory(createProductDto.category());
-//        product.setImgUrl(createProductDto.imgUrl());
-//        product.setAdminId(createProductDto.adminId());
-//        product.setCreatedAt(createProductDto.createdAt());
-//
-//        return product;
-//    }
+
+    public String getAdminEmail() {
+        return adminEmail;
+    }
+
+    public void setAdminEmail(String adminEmail) {
+        this.adminEmail = adminEmail;
+    }
 
 
     public String getProductId() {

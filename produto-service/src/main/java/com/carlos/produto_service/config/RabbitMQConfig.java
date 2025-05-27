@@ -20,6 +20,13 @@ public class RabbitMQConfig {
         return new Queue(queue, true);
     }
 
+    //depois por no env n sei
+    @Bean
+    public Queue queueEmail() {
+
+        return new Queue("product.v1.product-created.send-email", true);
+    }
+
     @Bean
     public Jackson2JsonMessageConverter messageConverter() {
         ObjectMapper objectMapper = new ObjectMapper();
