@@ -3,7 +3,7 @@ package com.carlos.produto_service.controller;
 import com.carlos.produto_service.dto.CreateProductDto;
 import com.carlos.produto_service.entity.ProductEntity;
 import com.carlos.produto_service.service.ProductService;
-import io.awspring.cloud.dynamodb.DynamoDbTemplate;
+
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class ProductController {
 
-    @Autowired
-    private DynamoDbTemplate dynamoDbTemplate;
 
     @Autowired
     private ProductService productService;

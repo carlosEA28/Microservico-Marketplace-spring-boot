@@ -1,17 +1,24 @@
 package com.carlos.produto_service.entity;
 
 import com.carlos.produto_service.dto.CreateProductDto;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.UUID;
 
-@DynamoDbBean
+
+@Document(collection = "product_entity")
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductEntity {
 
-    private UUID productId;
+    @Id
+    private String productId;
     private String title;
     private BigDecimal price;
     private String description;
@@ -20,26 +27,26 @@ public class ProductEntity {
     private String adminId;
     private Instant createdAt;
 
-    public static ProductEntity product(CreateProductDto createProductDto) {
-        var product = new ProductEntity();
-        product.setProductId(UUID.randomUUID());
-        product.setTitle(createProductDto.title());
-        product.setPrice(createProductDto.price());
-        product.setDescription(createProductDto.description());
-        product.setCategory(createProductDto.category());
-        product.setImgUrl(createProductDto.imgUrl());
-        product.setAdminId(createProductDto.adminId());
-        product.setCreatedAt(createProductDto.createdAt());
+//    public static ProductEntity product(CreateProductDto createProductDto) {
+//        var product = new ProductEntity();
+//        product.setProductId(UUID.randomUUID());
+//        product.setTitle(createProductDto.title());
+//        product.setPrice(createProductDto.price());
+//        product.setDescription(createProductDto.description());
+//        product.setCategory(createProductDto.category());
+//        product.setImgUrl(createProductDto.imgUrl());
+//        product.setAdminId(createProductDto.adminId());
+//        product.setCreatedAt(createProductDto.createdAt());
+//
+//        return product;
+//    }
 
-        return product;
-    }
 
-    @DynamoDbPartitionKey
-    public UUID getProductId() {
+    public String getProductId() {
         return productId;
     }
 
-    public void setProductId(UUID productId) {
+    public void setProductId(String productId) {
         this.productId = productId;
     }
 
