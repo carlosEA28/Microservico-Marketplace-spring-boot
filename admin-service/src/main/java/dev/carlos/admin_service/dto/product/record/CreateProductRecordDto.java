@@ -1,4 +1,4 @@
-package dev.carlos.admin_service.dto;
+package dev.carlos.admin_service.dto.product.record;
 
 import java.math.BigDecimal;
 

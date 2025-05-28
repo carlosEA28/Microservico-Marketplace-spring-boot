@@ -1,9 +1,8 @@
-package dev.carlos.admin_service.dto;
+package dev.carlos.admin_service.dto.product;
 
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 public class CreateProductDto {
 
@@ -14,6 +13,15 @@ public class CreateProductDto {
     private String imgUrl;
     private String adminId;
     private Instant createdAt;
+//    private String adminEmail;
+//
+//    public String getAdminEmail() {
+//        return adminEmail;
+//    }
+//
+//    public void setAdminEmail(String adminEmail) {
+//        this.adminEmail = adminEmail;
+//    }
 
     public String getTitle() {
         return title;

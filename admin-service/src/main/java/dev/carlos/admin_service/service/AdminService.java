@@ -1,23 +1,24 @@
 package dev.carlos.admin_service.service;
 
-import dev.carlos.admin_service.dto.AdminRecordDto;
-import dev.carlos.admin_service.dto.CreateProductDto;
-import dev.carlos.admin_service.dto.CreateProductRecordDto;
+import dev.carlos.admin_service.dto.admin.record.AdminRecordDto;
+import dev.carlos.admin_service.dto.product.CreateProductDto;
+import dev.carlos.admin_service.dto.product.record.GetProductsByIdResponseRecordDto;
 import dev.carlos.admin_service.entity.AdminEntity;
 import dev.carlos.admin_service.enums.AccountActive;
 import dev.carlos.admin_service.ports.StoragePorts;
 import dev.carlos.admin_service.producers.AdminProducer;
 import dev.carlos.admin_service.repository.AdminRepository;
 import jakarta.transaction.Transactional;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Base64;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -34,6 +35,9 @@ public class AdminService {
 
     @Autowired
     private StoragePorts storagePorts;
+
+    @Autowired
+    private WebClient.Builder webCleintBuilder;
 
     @Transactional
     public AdminEntity createUser(AdminRecordDto adminRecordDto) {
@@ -58,13 +62,11 @@ public class AdminService {
 
     public String createProductToRabbitmq(CreateProductDto dto, MultipartFile imageFile) {
         try {
-            // Upload da imagem para o storage
             String url = storagePorts.uploadFile(
                     imageFile.getBytes(),
                     UUID.randomUUID().toString(),
                     imageFile.getContentType());
 
-            // Montar o DTO final para enviar via RabbitMQ
             var product = new CreateProductDto();
             product.setTitle(dto.getTitle());
             product.setPrice(dto.getPrice());
@@ -73,7 +75,7 @@ public class AdminService {
             product.setImgUrl(url);
             product.setAdminId(dto.getAdminId());
 
-            // Enviar mensagem
+
             adminProducer.publishMessageCreateProduct(product);
             return "Produto enviado para processamento";
 
@@ -82,5 +84,10 @@ public class AdminService {
         }
     }
 
-
+    public Flux<GetProductsByIdResponseRecordDto> getAllProductsByAdminId(String adminId) {
+        return webCleintBuilder.build()
+                .get()
+                .uri("http://localhost:8080/api/v1/product/" + adminId)//por a url no env
+                .retrieve().bodyToFlux(GetProductsByIdResponseRecordDto.class);
+    }
 }

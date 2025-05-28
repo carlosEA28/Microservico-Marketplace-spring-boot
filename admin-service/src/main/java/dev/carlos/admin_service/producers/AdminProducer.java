@@ -1,6 +1,6 @@
 package dev.carlos.admin_service.producers;
 
-import dev.carlos.admin_service.dto.CreateProductDto;
+import dev.carlos.admin_service.dto.product.CreateProductDto;
 import dev.carlos.admin_service.dto.EmailDto;
 import dev.carlos.admin_service.entity.AdminEntity;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -37,7 +37,10 @@ public class AdminProducer {
         productDto.setCategory(dto.getCategory());
         productDto.setImgUrl(dto.getImgUrl());
         productDto.setAdminId(dto.getAdminId());
+//        productDto.setAdminEmail(dto.getAdminEmail());
+
 
         rabbitTemplate.convertAndSend("", routingKey, productDto);
+//        rabbitTemplate.convertAndSend("product.v1.product-created.send-email", productDto);
     }
 }
